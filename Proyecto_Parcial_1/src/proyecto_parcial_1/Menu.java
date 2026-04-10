@@ -2,6 +2,7 @@ package proyecto_parcial_1;
 
 public class Menu {
     public void pantallaString() {
+        System.out.println();
         System.out.println("=== Menú ===");
         System.out.println("1. Opción 1");
         System.out.println("2. Opción 2");
