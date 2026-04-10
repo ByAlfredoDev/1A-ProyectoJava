@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class Menu {
     Scanner scan = new Scanner(System.in);
+    
     public void pantallaString() {
         System.out.println();
         System.out.println("=== Menú ===");
@@ -23,41 +24,90 @@ public class Menu {
     }
     
     public void opcion1() {
-        int pos = 0;
-        String pos1, pos2;
+        int pos;
+        int pos1, pos2;
         String palabra, posStr, patron = "\\d+";
         
-        // Metodo .length();
+        // Método .length();
         do {
             System.out.print("Ingrese una palabra: ");
-            palabra = scan.nextLine();
+            palabra = scan.nextLine().trim();
         } while (palabra.length() < 2);
         
+        titulo("Método .length()");
         System.out.printf("En el metodo .length() ha devuelto: %d\n", palabra.length());
         
-        // Metodo .charAt();
+        // Método .charAt();
+        titulo("Método .charAt(int index)");
         do {
-            System.out.print("Ingrese una posicion de la letra a buscar: ");
-            posStr = scan.next();
+            System.out.print("Ingrese una posición de la letra a buscar: ");
+            posStr = scan.nextLine().trim();
             if (posStr.matches(patron)){
                 pos = Integer.parseInt(posStr);
-            }
-        } while(!posStr.matches(patron) && (pos < 0 || pos > palabra.length() - 1));
-        
-        System.out.printf("La letra buscada es: %s\n", palabra.charAt(pos - 1));
-        
-        // Metodo substring();
-        do {
-            System.out.println("Ingrese la posicion inicial: ");
-            pos1 = scan.nextInt();
-            System.out.println("Ingrese la posicion final: ");
-            pos2 = scan.nextInt();
-            if (pos1 < pos2 && pos2 <= palabra.length()){
-                System.out.println(palabra.substring(pos1, pos2));
+                if (pos > 0 && pos <= palabra.length()){
+                    System.out.printf("La letra buscada es: %s\n", palabra.charAt(pos - 1));
+                    break;
+                } else {
+                    error("La posición está fuera de rango");
+                }
             } else {
-                System.out.println("Error");
+                error("Ingrese solo números enteros positivos");
             }
-        } while (!(pos1 < pos2 && pos2 <= palabra.length()));
+        } while(true);
+        
+        // Método substring();
+        titulo("Método .substring(int begin, int end)");
+        do {
+            pos1 = validarEntero("Ingrese la posición inicial: ", scan);
+            pos2 = validarEntero("Ingrese la posición final: ", scan);
+            if (pos1 < pos2){
+                if (pos1 > 0 && pos2 <= palabra.length()){
+                    System.out.println(palabra.substring(pos1 - 1, pos2));
+                    break;
+                } else {
+                    error("La posición está fuera de rango");
+                }
+            } else {
+                error("La posición inicial debe ser menor a la posición final");
+            }
+        } while (true);
+        
+        // Método equals
+        titulo("Método .equals(String str)");
+        System.out.print("Ingrese una cadena: ");
+        String cad = scan.nextLine().trim();
+        if (cad.equals(palabra)){
+            System.out.printf("\u001B[32mLa cadena %s coincide con %s\u001B[0m", cad, palabra);
+        } else {
+            System.err.println("No coincide la cadena");
+        }
+        
+        // Método equalsIgnoreCase
+        titulo("Método .equalsIgnoreCase(String str)");
+        String cad2 = scan.nextLine().trim();
+        if (cad2.equalsIgnoreCase(palabra)){
+            System.out.printf("\u001B[32mLa cadena %s coincide con %s\u001B[0m (Ignorando mayúsculas y minúsculas)", cad, palabra);
+        } else {
+            System.err.println("No coincide la cadena");
+        }
+        
+        // Método contains()
+        titulo("Método .contains(CharSequence s)");
+        do {
+            System.out.print("Ingrese la cadena de texto: ");
+            String cont = scan.nextLine().trim();
+            if (palabra.contains(cont)){
+                System.out.printf("\u001B[32mLa cadena %s si contiene a %s\u001B[0m", palabra, cont);
+                break;
+            } else {
+                System.err.println("No contiene " + cont + " la palabra " + palabra);
+                break;
+            }
+        } while(true);
+        
+        // Método indexOf(String str)
+        titulo("Método .indexOf(String str)");
+        // 11/04/2026
     }
     
     public void opcion2() {
@@ -70,5 +120,26 @@ public class Menu {
     
     public void opcion4() {
         System.out.println("Elegiste opción 4");
+    }
+    
+    public static int validarEntero(String mensaje, Scanner scan){
+        String var, patron = "\\d+";
+        do {
+            System.out.print(mensaje);
+            var = scan.nextLine().trim();
+            if (!var.matches(patron)){
+                System.err.println("Error: Ingrese un número entero válido.");
+            }
+        } while (!var.matches(patron));
+        
+        return Integer.parseInt(var);
+    }
+    
+    public static void error(String err){
+        System.err.println("Error: " + err);
+    }
+    
+    public static void titulo(String msg){
+        System.out.printf("\n\n\n\u001B[35m%s\u001B[0m\n", msg);
     }
 }
