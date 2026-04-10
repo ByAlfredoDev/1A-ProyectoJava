@@ -6,7 +6,7 @@ package proyecto_parcial_1;
 
 /**
  *
- * @author Usuario
+ * @author Alfredo_EC
  */
 public class Proyecto_Parcial_1 {
 
