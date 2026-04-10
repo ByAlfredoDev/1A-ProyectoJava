@@ -37,10 +37,13 @@ public class Proyecto_Parcial_1 {
                 case "4" -> {
                     menu.opcion4();
                 }
+                case "5" -> {
+                    System.out.println("Adios!");
+                }
                 default -> {
                     System.out.println("Opción no válida");
                 }
             }
-        } while (true);
+        } while (!"5".equals(opt));
     }
 }
